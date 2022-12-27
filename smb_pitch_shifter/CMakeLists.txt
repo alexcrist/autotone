@@ -9,7 +9,7 @@ pkg_search_module(FFTW REQUIRED fftw3 IMPORTED_TARGET)
 include_directories(PkgConfig::FFTW)
 link_libraries(PkgConfig::FFTW)
 
-# C API for Python
+# C API
 add_library(smb_api SHARED 
   smb_api.c
   dsp.c

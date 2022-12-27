@@ -6,7 +6,6 @@
 #define NUM_OUTPUT_CHANNELS 1
 #define OUTPUT_CHANNEL 0
 #define MAX_INT_16 32768
-#define OSAMP 2
 
 static int32_t window_length_;
 
@@ -17,10 +16,11 @@ static double * output;
 
 void init(
   int32_t window_length,
-  int32_t sample_rate
+  int32_t sample_rate,
+  int32_t osamp
 ) {
   window_length_ = window_length;
-  init_fft_smb(window_length, OSAMP, sample_rate, NUM_OUTPUT_CHANNELS);
+  init_fft_smb(window_length, osamp, sample_rate, NUM_OUTPUT_CHANNELS);
   window = calloc(window_length * 2, sizeof(double));
   new_freqs = calloc(window_length, sizeof(double));
   new_magns = calloc(window_length, sizeof(double));
