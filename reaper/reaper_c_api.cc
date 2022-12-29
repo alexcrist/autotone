@@ -19,7 +19,7 @@ extern "C" {
   bool do_highpass_; 
   bool do_hilbert_transform_;
 
-  void init(
+  void reaper_init(
     float sample_rate,
     bool do_highpass, 
     bool do_hilbert_transform
@@ -30,13 +30,12 @@ extern "C" {
     do_hilbert_transform_ = do_hilbert_transform;
   }
 
-  void process(
+  void reaper_process(
     int16_t * input, 
     int32_t input_length
   ) {
     error = false;
 
-    // Calculate frequencies
     if (!et->Init(
       input,
       input_length,
@@ -79,22 +78,22 @@ extern "C" {
     }
   }
 
-  bool get_output_error() {
+  bool reaper_get_output_error() {
     return error;
   }
 
-  int32_t get_output_length() {
+  int32_t reaper_get_output_length() {
     return f0_track->num_frames();
   }
 
-  void get_output(float * times, float * freqs) {
+  void reaper_get_output(float * times, float * freqs) {
     for (int32_t i = 0; i < f0_track->num_frames(); i++) {
       times[i] = f0_track->t(i);
       freqs[i] = f0_track->a(i);
     }
   }
 
-  void cleanup() {
+  void reaper_cleanup() {
     delete et;
     delete f0_track;
   }

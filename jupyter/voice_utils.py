@@ -15,23 +15,23 @@ def load_audio(path):
 
 shared_file = os.path.normpath(current_dir + '/reaper/build/libreaper_c_api.dylib')
 reaper = CDLL(shared_file)
-reaper.init.argtypes = [c_float, c_bool, c_bool]
-reaper.process.argtypes = [POINTER(c_int16), c_int32]
-reaper.get_output_error.restype = c_bool
-reaper.get_output_length.restype = c_int32
-reaper.get_output.argtypes = [POINTER(c_float), POINTER(c_float)]
+reaper.reaper_init.argtypes = [c_float, c_bool, c_bool]
+reaper.reaper_process.argtypes = [POINTER(c_int16), c_int32]
+reaper.reaper_get_output_error.restype = c_bool
+reaper.reaper_get_output_length.restype = c_int32
+reaper.reaper_get_output.argtypes = [POINTER(c_float), POINTER(c_float)]
 
 def reaper_init(sample_rate, do_highpass, do_hilbert):
-    reaper.init(sample_rate, do_highpass, do_hilbert)
+    reaper.reaper_init(sample_rate, do_highpass, do_hilbert)
     
 def reaper_process(audio):
-    reaper.process((c_int16 * len(audio))(*audio), len(audio))
-    if reaper.get_output_error():
+    reaper.reaper_process((c_int16 * len(audio))(*audio), len(audio))
+    if reaper.reaper_get_output_error():
         print('Error occurred.')
-    output_length = reaper.get_output_length()
+    output_length = reaper.reaper_get_output_length()
     output_times = (c_float * output_length)()
     output_freqs = (c_float * output_length)()
-    reaper.get_output(output_times, output_freqs)
+    reaper.reaper_get_output(output_times, output_freqs)
     output_times = np.frombuffer(output_times, c_float)
     output_freqs = np.frombuffer(output_freqs, c_float)
     return output_freqs
@@ -58,6 +58,10 @@ shared_file = os.path.normpath(current_dir + '/tuner/build/libtuner_api.dylib')
 tuner = CDLL(shared_file)
 tuner.upsample_linear.argtypes = [POINTER(c_double), c_int32, c_int32]
 tuner.upsample_linear.restype = POINTER(c_double)
+tuner.get_reassembled_audio_size.argtypes = [c_int32, c_int32, c_int32]
+tuner.get_reassembled_audio_size.restype = c_int32
+tuner.reassemble_windows.argtypes = [POINTER(POINTER(c_int16)), c_int32, c_int32, c_int32]
+tuner.reassemble_windows.restype = POINTER(c_int16)
 
 def tuner_upsample_linear(array, new_length):
     output_pointer = tuner.upsample_linear(
@@ -69,5 +73,17 @@ def tuner_upsample_linear(array, new_length):
     for i in range(new_length):
         output_array[i] = output_pointer[i]
     return output_array
+
+def tuner_reassemble_windows(windows, window_size, osamp):
+    window_pointers = []
+    for window in windows:
+        window_pointers.append((c_int16 * len(window))(*window))
+    windows_pointer = (POINTER(c_int16) * len(window_pointers))(*window_pointers)
+    audio_pointer = tuner.reassemble_windows(windows_pointer, len(windows), window_size, osamp)
+    audio_size = tuner.get_reassembled_audio_size(len(windows), window_size, osamp)
+    audio = np.empty((audio_size), dtype=np.int16)
+    for i in range(audio_size):
+        audio[i] = audio_pointer[i]
+    return audio
     
     
