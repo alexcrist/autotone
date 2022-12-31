@@ -19,6 +19,11 @@ int16_t ** create_windows(
   int32_t osamp
 );
 
+void free_windows(
+  int16_t ** windows, 
+  int32_t num_windows
+);
+
 int32_t get_reassembled_audio_size(
   int32_t num_windows,
   int32_t window_size,

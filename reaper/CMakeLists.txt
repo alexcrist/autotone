@@ -41,10 +41,10 @@ add_library(epoch_tracker STATIC
 add_executable(reaper REAPER/epoch_tracker_main.cc)
 
 # C API
-add_library(reaper_c_api SHARED reaper_c_api.cc)
+add_library(reaper_api SHARED reaper_api.cc)
 
 # Link it up
 target_link_libraries(wave core)
 target_link_libraries(epoch_tracker wave)
 target_link_libraries(reaper epoch_tracker)
-target_link_libraries(reaper_c_api epoch_tracker)
+target_link_libraries(reaper_api epoch_tracker)

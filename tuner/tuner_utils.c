@@ -51,12 +51,13 @@ int16_t ** create_windows(
   int16_t ** windows = calloc(num_windows, sizeof(int16_t *));
   int32_t hop_size = window_size / osamp;
   for (int32_t i = 0; i < num_windows; i++) {
-    int16_t * window = calloc(window_size, sizeof(int16_t *));
-    for (int32_t j = 0; j < num_windows; j++) {
+    int16_t * window = calloc(window_size, sizeof(int16_t));
+    for (int32_t j = 0; j < window_size; j++) {
       double hanning = 0.5 * (1.0 - cos(2.0 * M_PI * (double) j / ((double) window_size - 1.0)));
       int32_t index = i * hop_size + j;
       window[j] = (int16_t) ((double) audio[index] * hanning);
     }
+    windows[i] = window;
   }
   return windows;
 }

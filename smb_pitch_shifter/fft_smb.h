@@ -10,3 +10,5 @@ void init_fft_smb(
 double ** fft_smb(double * window);
 
 double * ifft_smb(double * new_freqs, double * new_magns, int32_t output_channel);
+
+void cleanup_fft_smb();

@@ -216,3 +216,19 @@ double * ifft_smb(double * new_freqs, double * new_magns, int32_t output_channel
 
   return output;
 }
+
+// Clean up ============================================================
+
+void cleanup_fft_smb() {
+  free(freqs);
+  free(magns);
+  free(output);
+  free(freqs_magns);
+  free(prev_phase);
+  for (int32_t i = 0; i < n_output_channels; i++) {
+    free(sum_phases[i]);
+  }
+  free(sum_phases);
+  free(fft_reals);
+  fftw_free(fft_complexes);
+}

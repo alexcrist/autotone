@@ -1,3 +1,4 @@
+#include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 #include "fft_smb.h"
@@ -14,7 +15,7 @@ static double * new_freqs;
 static double * new_magns;
 static double * output;
 
-void init(
+void smb_init(
   int32_t window_length,
   int32_t sample_rate,
   int32_t osamp
@@ -27,7 +28,7 @@ void init(
 }
 
 // Pitch shifts a (mono) window of audio
-void process_window(
+void smb_process_window(
   int16_t * buffer,
   double shift_multiplier
 ) {
@@ -55,4 +56,11 @@ void process_window(
   for (int32_t i = 0; i < window_length_; i++) {
     buffer[i] = output[i] * MAX_INT_16;
   }
+}
+
+void smb_cleanup() {
+  free(window);
+  free(new_freqs);
+  free(new_magns);
+  cleanup_fft_smb();
 }

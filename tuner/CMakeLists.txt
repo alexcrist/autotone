@@ -4,6 +4,7 @@ project(tuner)
 include_directories(".")
 include_directories("../reaper")
 include_directories("../reaper/REAPER")
+include_directories("../smb_pitch_shifter")
 
 # Reaper compilation ===================================================
 
@@ -42,20 +43,36 @@ add_library(epoch_tracker STATIC
 )
 
 # C API
-add_library(reaper_c_api SHARED ../reaper/reaper_c_api.cc)
+add_library(reaper_api SHARED ../reaper/reaper_api.cc)
 
 # Link it up
 target_link_libraries(wave core)
 target_link_libraries(epoch_tracker wave)
-target_link_libraries(reaper_c_api epoch_tracker)
+target_link_libraries(reaper_api epoch_tracker)
+
+# SMB pitch shifting compiliation ======================================
+
+# Add fftw3 library
+find_package(PkgConfig REQUIRED)
+pkg_search_module(FFTW REQUIRED fftw3 IMPORTED_TARGET)
+include_directories(PkgConfig::FFTW)
+link_libraries(PkgConfig::FFTW)
+
+# C API
+add_library(smb_api SHARED 
+  ../smb_pitch_shifter/smb_api.c
+  ../smb_pitch_shifter/dsp.c
+  ../smb_pitch_shifter/fft_smb.c
+)
 
 # Tuner compilation ====================================================
 
 # C API
 add_library(tuner_api SHARED
-  tuner.c
+  tuner_api.c
   tuner_utils.c
 )
 
 # Link it up
-target_link_libraries(tuner_api reaper_c_api)
+target_link_libraries(tuner_api reaper_api)
+target_link_libraries(tuner_api smb_api)
