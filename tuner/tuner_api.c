@@ -118,7 +118,39 @@ void pitch_shift(
 // Smoothes the given frequency array. Values of -1 will not be smoothed
 void smooth(
   float * freqs,
-  int32_t smoothing_window_size
+  int32_t freqs_size,
+  int32_t smoothing_window_size,
+  float * output_freqs
 ) {
-
+  for (int32_t i = 0; i < freqs_size; i++) {
+    if (freqs[i] == -1) {
+      output_freqs[i] = -1;
+      continue;
+    }
+    float sum = freqs[i];
+    int32_t qty = 1;
+    for (int32_t j = 1; j < smoothing_window_size / 2; j++) {
+      int32_t index = i - j;
+      if (index < 0) {
+        break;
+      }
+      if (freqs[index] == -1) {
+        break;
+      }
+      sum += freqs[index];
+      qty++;
+    }
+    for (int32_t j = 1; j < smoothing_window_size / 2; j++) {
+      int32_t index = i + j;
+      if (index >= freqs_size) {
+        break;
+      }
+      if (freqs[index] == -1) {
+        break;
+      }
+      sum += freqs[index];
+      qty++;
+    }
+    output_freqs[i] = sum / (float) qty;
+  }
 }

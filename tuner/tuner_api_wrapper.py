@@ -41,6 +41,12 @@ tuner.pitch_shift.argtypes = [
   c_int32,
   POINTER(c_int16),
 ]
+tuner.smooth.argtypes = [
+  POINTER(c_float),
+  c_int32,
+  c_int32,
+  POINTER(c_float),
+]
 
 def tuner_pitch_detect(audio, sample_rate, window_size, osamp, do_highpass, do_hilbert_transform):
   audio_pointer = (c_int16 * len(audio))(*audio)
@@ -98,3 +104,17 @@ def tuner_pitch_shift(
     shifted_audio
   )
   return np.frombuffer(shifted_audio, dtype=np.int16)
+
+def tuner_smooth(
+  freqs,
+  smoothing_window_size,
+):
+  freqs_pointer = (c_float * len(freqs))(*freqs)
+  output_pointer = (c_float * len(freqs))()
+  tuner.smooth(
+    freqs_pointer,
+    len(freqs),
+    smoothing_window_size,
+    output_pointer
+  )
+  return np.frombuffer(output_pointer, dtype=np.float32)
