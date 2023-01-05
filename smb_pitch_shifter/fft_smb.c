@@ -17,8 +17,8 @@
 #include <math.h>
 #include <stdlib.h>
 #include <complex.h>
-#include <fftw3.h>
 #include <string.h>
+#include "kiss_fft/kiss_fftr.h"
 
 static double * freqs;
 static double * magns;
@@ -37,10 +37,10 @@ static int32_t osamp;
 static int32_t sample_rate;
 static int32_t n_output_channels;
 
-static fftw_plan regular_plan;
-static fftw_plan inverse_plan;
-static double * fft_reals;
-static fftw_complex * fft_complexes;
+static kiss_fftr_cfg fft_config;
+static kiss_fftr_cfg ifft_config;
+static kiss_fft_scalar * fft_reals;
+static kiss_fft_cpx * fft_complexes;
 
 static double real, imag, magn, phase, tmp, amp_min, amp_max, new_amp_min, 
               new_amp_max;
@@ -75,11 +75,11 @@ void init_fft_smb(
     sum_phases[i] = calloc(window_length / 2 + 1, sizeof(double));
   }
 
-  fft_reals = calloc(window_length, sizeof(double));
-  fft_complexes = (fftw_complex *) fftw_malloc((window_length / 2 + 1) * sizeof(fftw_complex));
+  fft_reals = calloc(window_length, sizeof(kiss_fft_scalar));
+  fft_complexes = calloc((window_length / 2 + 1), sizeof(kiss_fft_cpx));
 
-  regular_plan = fftw_plan_dft_r2c_1d(window_length, fft_reals, fft_complexes, FFTW_MEASURE);
-  inverse_plan = fftw_plan_dft_c2r_1d(window_length, fft_complexes, fft_reals, FFTW_MEASURE);
+  fft_config = kiss_fftr_alloc(window_length, 0, NULL, NULL);
+  ifft_config = kiss_fftr_alloc(window_length, 1, NULL, NULL);
 }
 
 // Execute the FFT =============================================================
@@ -103,15 +103,15 @@ double ** fft_smb(double * window) {
     fft_reals[i] = mono * window_constant;
   }
 
-  // Run fftw3
-  fftw_execute(regular_plan);
+  // Run fft
+  kiss_fftr(fft_config, fft_reals, fft_complexes);
 
   // Use phase information to analyze true frequencies
   for (int32_t i = 0; i < window_length / 2 + 1; i++) {
 
     // Compute magnitude and phase
-    real = creal(fft_complexes[i]);
-    imag = cimag(fft_complexes[i]);
+    real = fft_complexes[i].r;
+    imag = fft_complexes[i].i;
     magn = 2.0 * sqrt(real * real + imag * imag);
     phase = atan2(imag, real);
 
@@ -180,11 +180,12 @@ double * ifft_smb(double * new_freqs, double * new_magns, int32_t output_channel
     // Get real and imaginary parts
     real = magn * cos(phase);
     imag = magn * sin(phase);
-    fft_complexes[i] = real + imag * I;
+    fft_complexes[i].r = real;
+    fft_complexes[i].i = imag;
   }
 
-  // Run fftw3 inverse
-  fftw_execute(inverse_plan);
+  // Run inverse fft
+  kiss_fftri(ifft_config, fft_complexes, fft_reals);
 
   // Determine new min/max amplitude
   new_amp_min = fft_reals[0];
@@ -230,5 +231,7 @@ void cleanup_fft_smb() {
   }
   free(sum_phases);
   free(fft_reals);
-  fftw_free(fft_complexes);
+  free(fft_complexes);
+  kiss_fftr_free(fft_config);
+  kiss_fftr_free(ifft_config);
 }

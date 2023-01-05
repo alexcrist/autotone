@@ -52,17 +52,13 @@ target_link_libraries(reaper_api epoch_tracker)
 
 # SMB pitch shifting compiliation ======================================
 
-# Add fftw3 library
-find_package(PkgConfig REQUIRED)
-pkg_search_module(FFTW REQUIRED fftw3 IMPORTED_TARGET)
-include_directories(PkgConfig::FFTW)
-link_libraries(PkgConfig::FFTW)
-
 # C API
 add_library(smb_api SHARED 
   ../smb_pitch_shifter/smb_api.c
   ../smb_pitch_shifter/dsp.c
   ../smb_pitch_shifter/fft_smb.c
+  ../smb_pitch_shifter/kiss_fft/kiss_fft.c
+  ../smb_pitch_shifter/kiss_fft/kiss_fftr.c
 )
 
 # Tuner compilation ====================================================
