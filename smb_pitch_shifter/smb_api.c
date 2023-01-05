@@ -47,7 +47,7 @@ void smb_process_window(
   // Pitch shift
   memset(new_freqs, 0, window_length_ * sizeof(double));
   memset(new_magns, 0, window_length_ * sizeof(double));
-  pitch_shift(window_length_, shift_multiplier, freqs, magns, new_freqs, new_magns);
+  smb_pitch_shift(window_length_, shift_multiplier, freqs, magns, new_freqs, new_magns);
 
   // Run iFFT
   output = ifft_smb(new_freqs, new_magns, OUTPUT_CHANNEL);

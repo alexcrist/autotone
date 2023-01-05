@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <math.h>
 
-void pitch_shift(
+void smb_pitch_shift(
   int32_t window_length,
   double shift_multiplier,
   double * freqs, 
