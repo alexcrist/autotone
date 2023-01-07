@@ -15,16 +15,8 @@ const int16ArrayToPointer = (array) => {
   return arrayToPointer(array, 2, 'i16');
 };
 
-const int32ArrayToPointer = (array) => {
-  return arrayToPointer(array, 4, 'i32');
-};
-
 const float32ArrayToPointer = (array) => {
   return arrayToPointer(array, 4, 'float');
-};
-
-const float64ArrayToPointer = (array) => {
-  return arrayToPointer(array, 8, 'double');
 };
 
 const arrayToPointer = (array, bytesPerElement, dataType) => {
@@ -41,19 +33,19 @@ const arrayToPointer = (array, bytesPerElement, dataType) => {
 // Converting pointers back to JS tyeped arrays ========================
 
 const pointerToInt16Array = (pointer, numElements) => {
-  return new Int16Array(Module.HEAP16.buffer, pointer, numElements);
-};
-
-const pointerToInt32Array = (pointer, numElements) => {
-  return new Int32Array(Module.HEAP32.buffer, pointer, numElements);
+  return pointerToArray(pointer, numElements, 2, 'i16', Int16Array);
 };
 
 const pointerToFloat32Array = (pointer, numElements) => {
-  return new Float32Array(Module.HEAPF32.buffer, pointer, numElements);
+  return pointerToArray(pointer, numElements, 4, 'float', Float32Array);
 };
 
-const pointerToFloat64Array = (pointer, numElements) => {
-  return new Float64Array(Module.HEAPF64.buffer, pointer, numElements);
+const pointerToArray = (pointer, numElements, bytesPerElement, dataType, TypedArray) => {
+  const array = new TypedArray(numElements);
+  for (let i = 0; i < numElements; i++) {
+    array[i] = Module.getValue(pointer + i * bytesPerElement, dataType);
+  }
+  return array;
 };
 
 // Wrapping C functions ================================================
