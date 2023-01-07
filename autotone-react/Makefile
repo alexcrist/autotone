@@ -1,4 +1,4 @@
-OUTPUT_FILE = -o src/wasm/wasmPayload.js
+OUTPUT_FILE = -o src/wasm/wasmBuild.js
 INPUT_FILES = $(wildcard ../tuner/*.c) \
 							$(wildcard ../smb_pitch_shifter/*.c) \
 							$(wildcard ../smb_pitch_shifter/kiss_fft/*.c) \
@@ -12,7 +12,7 @@ INCLUDE_DIRS = -I../reaper \
 							 -I../smb_pitch_shifter
 
 DEV_OPTIMIZATION = -O0
-PROD_OPTIMIZATION = -O3
+PROD_OPTIMIZATION = -O1
 
 EMCC_OPTIONS = \
 	-s WASM=0 \
