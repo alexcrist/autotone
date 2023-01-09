@@ -20,7 +20,6 @@ const App = () => {
 
   useEffect(() => {
     worker.addEventListener('message', (message) => {
-      console.log(message);
       const { type, payload } = message.data;
       if (type === 'wasmLoaded') {
         console.log('WASM loaded.');

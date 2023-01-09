@@ -1,5 +1,7 @@
 cd autotone-react;
-make prod;
+make;
+mkdir -p public/static/js;
+mv src/wasm/wasmBuild.wasm public/static/js;
 
 # Add eslint-disable to the top of the WASM build
 echo "/* eslint-disable */" >> src/wasm/wasmBuild.js.temp;

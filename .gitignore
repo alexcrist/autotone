@@ -16,3 +16,4 @@ yarn-debug.log*
 yarn-error.log*
 wasmBuild.js
 wasmBuild.js.mem
+wasmBuild.wasm

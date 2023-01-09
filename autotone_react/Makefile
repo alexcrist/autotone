@@ -11,11 +11,10 @@ INCLUDE_DIRS = -I../reaper \
                -I../reaper/REAPER \
 							 -I../smb_pitch_shifter
 
-DEV_OPTIMIZATION = -O0
-PROD_OPTIMIZATION = -O1
+OPTIMIZATION = -O1
 
 EMCC_OPTIONS = \
-	-s WASM=0 \
+	-s WASM=1 \
 	-s MODULARIZE=1 \
 	-s ENVIRONMENT=web \
 	-s FILESYSTEM=0 \
@@ -32,18 +31,10 @@ EMCC_OPTIONS = \
 		'_smooth'\
 	]"
 
-dev:
+wasm:
 	emcc \
 		${INPUT_FILES} \
 		${OUTPUT_FILE} \
 		${INCLUDE_DIRS} \
 		${EMCC_OPTIONS} \
-		${DEV_OPTIMIZATION}
-
-prod:
-	emcc \
-		${INPUT_FILES} \
-		${OUTPUT_FILE} \
-		${INCLUDE_DIRS} \
-		${EMCC_OPTIONS} \
-		${PROD_OPTIMIZATION}
+		${OPTIMIZATION}
