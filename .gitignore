@@ -17,3 +17,4 @@ yarn-error.log*
 wasmBuild.js
 wasmBuild.js.mem
 wasmBuild.wasm
+dist
