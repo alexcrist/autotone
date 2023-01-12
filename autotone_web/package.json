@@ -4,7 +4,7 @@
     "build": "NODE_ENV=production webpack"
   },
   "dependencies": {
-    "@tensorflow/tfjs": "^4.2.0"
+    "@tensorflow/tfjs": "2.4.0"
   },
   "devDependencies": {
     "webpack": "^5.75.0",
