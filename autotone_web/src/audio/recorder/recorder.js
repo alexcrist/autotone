@@ -1,25 +1,27 @@
-import { PitchNode } from './PitchNode.js';
+import { BufferNode } from "./BufferNode";
 
 let audioContext;
 let microphone;
-let pitchNode;
+let bufferNode;
 
 export const init = async () => {
   audioContext = new AudioContext();
-  audioContext.suspend();
-
-  await audioContext.audioWorklet.addModule('dist/pitchProcessor.bundle.js');
-  pitchNode = new PitchNode(audioContext);
-  await pitchNode.loadModel();
-
   const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
   microphone = audioContext.createMediaStreamSource(stream);
-  microphone.connect(pitchNode);
+  audioContext.suspend();
+  return {
+    sampleRate: audioContext.sampleRate,
+  };
+};
+
+export const initBufferProcessor = async (bufferSize) => {
+  await audioContext.audioWorklet.addModule('dist/BufferProcessor.bundle.js');
+  bufferNode = new BufferNode(audioContext, bufferSize);
+  microphone.connect(bufferNode);
 };
 
 export const record = async () => {
-
-  pitchNode.reset();
+  bufferNode.reset();
   audioContext.resume();
 };
 
@@ -29,9 +31,7 @@ export const stop = () => {
 
 export const getData = () => {
   return {
-    audio: pitchNode.audio,
     sampleRate: audioContext.sampleRate,
-    freqs: pitchNode.freqs,
-    confidences: pitchNode.confidences,
+    ...bufferNode.getAudioData(),
   };
 };
