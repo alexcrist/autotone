@@ -2,36 +2,6 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-float * upsample_freqs(
-  float * old_array, 
-  int32_t old_length, 
-  int32_t new_length
-) {
-  float * new_array = calloc(sizeof(float), new_length);
-  for (int32_t i = 0; i < new_length; i++) {
-    float fractional_index = (float) i / (float) (new_length - 1) * (float) (old_length - 1);
-    int32_t lower = old_array[(int32_t) floor(fractional_index)];
-    int32_t upper = old_array[(int32_t) ceil(fractional_index)];
-    float slope = upper - lower;
-    float dX = fractional_index - floor(fractional_index);
-
-    // If we have a -1, use nearest neighbor
-    if (lower == -1 || upper == -1) {
-      if (dX < 0.5) {
-        new_array[i] = lower;
-      } else {
-        new_array[i] = upper;
-      }
-    } 
-    
-    // Else, use linear
-    else {
-      new_array[i] = lower + (slope * dX);
-    }
-  }
-  return new_array;
-}
-
 int32_t get_num_windows(
   int32_t audio_size,
   int32_t window_size,

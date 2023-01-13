@@ -1,31 +1,20 @@
-import * as crepe from './crepe.js';
+import { createWebWorkerReceiver } from '../../utils/webWorkerUtils.js';
+import * as crepe from './crepeApi.js';
+import * as constants from './crepeConstants.js';
 
 /* eslint-disable no-restricted-globals */
-self.onmessage = (message) => onMessage(message);
-const sendMessage = (type, payload) => self.postMessage({ type, payload });
+self.onmessage = createWebWorkerReceiver(self.postMessage, [
+  {
+    key: constants.CREPE_GET_BUFFER_SIZE,
+    fn: crepe.getBufferSize,
+  },
+  {
+    key: constants.CREPE_INIT,
+    fn: crepe.init,
+  },
+  {
+    key: constants.CREPE_DETECT_PITCHES,
+    fn: crepe.detectPitches,
+  }
+]);
 /* eslint-enable no-restricted-globals */
-
-const onMessage = (message) => {
-  const { type, payload } = message.data;
-  if (type === 'init') {
-    init(payload);
-  } else if (type === 'process') {
-    processBuffers(payload);
-  }
-};
-
-const init = async (sampleRate) => {
-  await crepe.init(sampleRate);
-  sendMessage('init-done');
-};
-
-const processBuffers = (buffers) => {
-  const freqs = [];
-  const confidences = [];
-  for (let i = 0; i < buffers.length; i++) {
-    const { freq, confidence } = crepe.detectPitch(buffers[i]);
-    freqs.push(freq);
-    confidences.push(confidence);
-  }
-  sendMessage('process-done', { freqs, confidences});
-};

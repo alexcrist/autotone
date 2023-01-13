@@ -14,7 +14,5 @@ coverage
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-wasmBuild.js
-wasmBuild.js.mem
-wasmBuild.wasm
 dist
+wasm/

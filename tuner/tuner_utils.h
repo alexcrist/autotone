@@ -1,11 +1,5 @@
 #include <stdint.h>
 
-float * upsample_freqs(  
-  float * old_array, 
-  int32_t old_length, 
-  int32_t new_length
-);
-
 int32_t get_num_windows(
   int32_t audio_size,
   int32_t window_size,
@@ -36,11 +30,3 @@ int16_t * reassemble_windows(
   int32_t window_size,
   int32_t osamp
 );
-
-// TODO:
-// * smoothing function (note: handle -1s appropriately)
-//   * ask ChatGPT for Savitsky-Golay C implementation
-// * write a function that pitch shifts given windows
-// * update reassemble_windows to accept the output pointer (to prevent memory leaks)
-// * maybe C program should have the window saved in memory? to avoid having to pass
-//   it back and forth?

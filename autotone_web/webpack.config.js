@@ -7,6 +7,7 @@ const config = {
   entry: {
     index: './src/index.js',
     crepeWorker: './src/audio/pitchDetection/crepeWorker.js',
+    tunerWorker: './src/audio/pitchShifting/tunerWorker.js',
     BufferProcessor: './src/audio/recorder/BufferProcessor.js',
   },
   output: {
@@ -20,6 +21,10 @@ const config = {
           from: 'src/audio/pitchDetection/model', 
           to: 'crepeModel' 
         },
+        {
+          from: 'src/audio/pitchShifting/wasm/tunerWasm.wasm',
+          to: '.'
+        }
       ],
     }),
   ],
