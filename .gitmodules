@@ -1,3 +1,0 @@
-[submodule "reaper/REAPER"]
-	path = reaper/REAPER
-	url = git@github.com:google/REAPER.git
