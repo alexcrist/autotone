@@ -17,6 +17,10 @@ const config = {
   plugins: [
     new CopyPlugin({
       patterns: [
+        {
+          from: 'index.html',
+          to: '.'
+        },
         { 
           from: 'src/audio/pitchDetection/model', 
           to: 'crepeModel' 

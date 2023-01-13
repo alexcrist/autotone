@@ -15,7 +15,7 @@ export const init = async () => {
 };
 
 export const initBufferProcessor = async (bufferSize) => {
-  await audioContext.audioWorklet.addModule('dist/BufferProcessor.bundle.js');
+  await audioContext.audioWorklet.addModule('BufferProcessor.bundle.js');
   bufferNode = new BufferNode(audioContext, bufferSize);
   microphone.connect(bufferNode);
 };

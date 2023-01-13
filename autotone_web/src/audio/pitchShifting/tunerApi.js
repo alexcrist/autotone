@@ -24,7 +24,6 @@ export const upsampleFreqs = (
   freqs, // Float32Array
   newLength
 ) => {
-  console.log('newlength', newLength);
   const freqsPointer = wasm.float32ArrayToPointer(freqs);
   const outputPointer = wasm.float32ArrayToPointer(new Float32Array(newLength));
   tunerUpsampleFreqs(

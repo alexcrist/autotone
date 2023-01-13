@@ -49,10 +49,6 @@ autotoneBtn.addEventListener('click', async () => {
   const originalFreqs = await tuner.upsampleFreqs(freqs, numWindows);
   const scale = getScaleFreqs('C', 'Major');
   const targetFreqs = await tuner.pitchSnap(originalFreqs, scale);
-  console.log('fr', freqs);
-  console.log('nw', numWindows);
-  console.log('orf', originalFreqs);
-  console.log('taf', targetFreqs);
   newAudio = await tuner.pitchShift(
     audio,
     sampleRate,
