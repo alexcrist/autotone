@@ -1,11 +1,10 @@
 # Autotone
 
-An open source version of Autotune. Currently, this repo is a collection of scattered but related projects:
+A work-in-proress, open source version of Autotune.
 
 ```
-- audio               directory of test audio clips
 - autotune_web        vanilla web app using crepe autotuner keras model + smb_pitch_shifter c project
 - scripts             various build scripts
-- smb_pitch_shifter   fast frequency-domain pitch shifting library in C
-- tuner               C wrapper which combines reaper pitch detection with pitch shifting for autotoning purposes
+- smb_pitch_shifter   a fast, frequency-domain pitch shifting library
+- tuner               a wrapper around the smb_pitch_shifter library
 ```
