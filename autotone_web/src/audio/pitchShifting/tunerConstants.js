@@ -10,3 +10,8 @@ export const TUNER_PITCH_SHIFT = 'TUNER_PITCH_SHIFT';
 
 export const MIN_INT_16 = -32768;
 export const MAX_INT_16 = 32767;
+
+// Pitch shifting settings
+
+export const PITCH_SHIFTING_WINDOW_SIZE = 1024;
+export const PITCH_SHIFTING_OSAMP = 32;

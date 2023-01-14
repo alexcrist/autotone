@@ -1,0 +1,43 @@
+.container {
+  border: 1px solid lightgray;
+  border-radius: 4px;
+  padding: 20px;
+  color: darkslategray;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  margin: 10px;
+}
+
+.text {
+  font-size: 16px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.button {
+  height: 50px;
+  width: 50px;
+  border-radius: 25px;
+  background-color: darkslategray;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.button:disabled {
+  user-select: none;
+  cursor: default;
+  opacity: 0.5;
+}
+
+.button:hover {
+  opacity: 0.5;
+}
+
+.icon {
+  color: white;
+  display: flex;
+}

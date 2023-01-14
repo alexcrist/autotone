@@ -1,0 +1,18 @@
+.container {
+  
+}
+
+.row {
+  display: flex;
+}
+
+.footer {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
+
+.footer a {
+  color: darkslategray;
+  text-decoration: none;
+}

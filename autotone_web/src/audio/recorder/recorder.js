@@ -1,4 +1,4 @@
-import { BufferNode } from "./BufferNode";
+import { BufferNode } from './BufferNode.js';
 
 let audioContext;
 let microphone;
