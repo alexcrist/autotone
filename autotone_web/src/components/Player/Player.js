@@ -13,6 +13,7 @@ export const Player = ({
   }
 
   const onClickPlay = () => {
+    console.log('play', audio, getSampleRate());
     player.play(audio, getSampleRate());
   };
 
@@ -26,8 +27,6 @@ export const Player = ({
       }
     ]
   };
-
-  console.log(chartData);
 
   return (
     <div className={styles.container}>

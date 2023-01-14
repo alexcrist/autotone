@@ -1,13 +1,13 @@
-// TODO: try to 
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 const { CleanPlugin, ProvidePlugin } = require('webpack');
+const workerConfig = require('./webpack.workerConfig.js');
 
 const jsLoaders = [
   {
     loader: 'babel-loader',
     options: {
-      presets: ['@babel/preset-env', '@babel/preset-react']
+      presets: ['@babel/preset-react']
     },
   },
 ];
@@ -50,9 +50,6 @@ const providePluginOptions = {
 const config = {
   entry: {
     index: './src/index.js',
-    crepeWorker: './src/audio/pitchDetection/crepe.worker.js',
-    tunerWorker: './src/audio/pitchShifting/tuner.worker.js',
-    BufferProcessor: './src/audio/recorder/BufferProcessor.js',
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -85,4 +82,4 @@ const config = {
   devtool: 'cheap-source-map',
 };
 
-module.exports = config;
+module.exports = [workerConfig, config];
