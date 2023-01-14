@@ -1,0 +1,9 @@
+.text {
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: darkslategray;
+}
+
+.center {
+  text-align: center;
+}

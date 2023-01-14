@@ -1,6 +1,10 @@
 import { FaPlay } from 'react-icons/fa';
-import styles from './Player.css';
 import * as player from '../../audio/player/player.js';
+import { Chart } from '../Chart/Chart.js';
+import { Button } from '../shared/Button/Button.js';
+import { Card } from '../shared/Card/Card.js';
+import { Text } from '../shared/Text/Text.js';
+import styles from './Player.css';
 
 export const Player = ({
   title,
@@ -13,39 +17,22 @@ export const Player = ({
   }
 
   const onClickPlay = () => {
-    console.log('play', audio, getSampleRate());
     player.play(audio, getSampleRate());
   };
 
-  const chartData = {
-    datasets: [
-      {
-        data: Array.from(getFreqs())
-      },
-      {
-        data: [1, 2, 3, 4, 5, 6, 7, 8]
-      }
-    ]
-  };
-
   return (
-    <div className={styles.container}>
-      <div className={styles.text}>
+    <Card>
+      <Text>
         {title}
-      </div>
+      </Text>
       <div className={styles.audio}>
-        <div 
-          className={styles.button}
+        <Button
+          small
           onClick={onClickPlay}
-        >
-          <div className={styles.icon}>
-            <FaPlay />
-          </div>
-        </div>
-        <div className={styles.graph}>
-          TODO: insert frequency chart
-        </div>
+          Icon={FaPlay}
+        />
+        <Chart data={getFreqs()} />
       </div>
-    </div>
+    </Card>
   );
 };

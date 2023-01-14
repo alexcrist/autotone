@@ -1,5 +1,8 @@
+import { FaCircle, FaStop } from 'react-icons/fa';
+import { Button } from '../shared/Button/Button.js';
+import { Card } from '../shared/Card/Card.js';
+import { Text } from '../shared/Text/Text.js';
 import styles from './Record.css';
-import { FaStop, FaCircle } from 'react-icons/fa';
 
 export const Record = ({
   isReady,
@@ -17,8 +20,6 @@ export const Record = ({
     text = 'Recording...';
   }
 
-  const icon = isRecording ? <FaStop /> : <FaCircle />;
-  
   const onClick = () => {
     if (!isReady) {
       return;
@@ -31,19 +32,16 @@ export const Record = ({
   }
 
   return (
-    <div className={styles.container}>
-      <div className={styles.text}>
+    <Card className={styles.card}>
+      <Text center>
         {text}
-      </div>
-      <div 
-        className={styles.button} 
-        disabled={!isReady}
+      </Text>
+      <Button 
+        large 
         onClick={onClick}
-      >
-        <div className={styles.icon}>
-          {icon}
-        </div>
-      </div>
-    </div>
+        Icon={isRecording ? FaStop : FaCircle}
+        disabled={!isReady}
+      />
+    </Card>
   );
 };
