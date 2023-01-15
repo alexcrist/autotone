@@ -3,6 +3,7 @@ import { Autotoner } from '../../audio/autotone/Autotoner.js';
 import { Player } from '../Player/Player.js';
 import { Record } from '../Record/Record.js';
 import { Settings } from '../Settings/Settings.js';
+import { Text } from '../shared/Text/Text.js';
 import styles from './App.css';
 
 const autotoner = new Autotoner();
@@ -61,6 +62,10 @@ export const App = () => {
           autotone={reAutotone}
         />
       </div>
+      {isProcessing 
+        ? <Text className={styles.loading}>Processing...</Text> 
+        : null
+      }
       <Player
         title='Original audio'
         audio={originalAudio}

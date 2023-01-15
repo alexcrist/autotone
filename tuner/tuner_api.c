@@ -7,20 +7,21 @@
 #include "tuner_utils.h"
 #include "smb_api.h"
 
-// Performs linear upsampling of the given array
-void upsample_linear(
+// Performs resampling of the given array
+//   upsampling = linear
+//   downsampling = box
+void resample_linear(
   float * old_array, 
   int32_t old_length, 
   float * new_array,
   int32_t new_length
 ) {
-  for (int32_t i = 0; i < new_length; i++) {
-    float fractional_index = (float) i / (float) (new_length - 1) * (float) (old_length - 1);
-    float lower = old_array[(int32_t) floor(fractional_index)];
-    float upper = old_array[(int32_t) ceil(fractional_index)];
-    float slope = upper - lower;
-    float dX = fractional_index - floor(fractional_index);
-    new_array[i] = lower + (slope * dX);
+  if (old_length == new_length) {
+    memcpy(new_array, old_array, old_length * sizeof(float));
+  } else if (old_length < new_length) {
+    upsample_linear(old_array, old_length, new_array, new_length);
+  } else {
+    downsample_box(old_array, old_length, new_array, new_length);
   }
 }
 

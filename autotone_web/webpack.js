@@ -32,6 +32,7 @@ else if (env === 'development') {
     mode: 'development'
   });
   compiler.watch({}, printStats);
+  console.log('Live at http://localhost:8080');
 }
 
 else {

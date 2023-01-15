@@ -8,6 +8,10 @@ export const CREPE_DETECT_PITCHES = 'CREPE_DETECT_PITCHES';
 
 // TensorFlow model
 
-export const MODEL_SAMPLE_RATE = 16000;
-export const MODEL_MIN_WINDOW_SIZE = 1024;
+export const CREPE_SAMPLE_RATE = 16000;
+export const CREPE_MIN_WINDOW_SIZE = 1024;
 export const CENT_MAPPING = tf.add(tf.linspace(0, 7180, 360), tf.tensor(1997.3794084376191));
+
+// Configurable pitch detection settings
+
+export const CREPE_OSAMP = 16;

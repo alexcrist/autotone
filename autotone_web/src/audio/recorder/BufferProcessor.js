@@ -3,11 +3,13 @@ class BufferProcessor extends AudioWorkletProcessor {
   _buffer;
   _bufferIndex;
   _bufferSize;
+  _osamp;
 
   constructor(options) {
     super();
     this.port.onmessage = this.handleMessage.bind(this);
     this._bufferSize = options.parameterData.bufferSize;
+    this._osamp = options.parameterData.osamp;
     this._buffer = new Float32Array(this._bufferSize);
     this.reset();
   }
@@ -39,8 +41,12 @@ class BufferProcessor extends AudioWorkletProcessor {
   }
 
   flushBuffer() {
-    this._bufferIndex = 0;
     this.port.postMessage(new Float32Array(this._buffer));
+    const hopSize = this._bufferSize / this._osamp;
+    for (let i = 0; i < this._bufferSize - hopSize; i++) {
+      this._buffer[i] = this._buffer[i + hopSize];
+    }
+    this._bufferIndex -= hopSize;
   }
 }
 

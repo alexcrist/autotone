@@ -20,7 +20,7 @@ EMCC_OPTIONS = \
 		'_malloc',\
 		'_free',\
 		'_get_num_windows',\
-		'_upsample_linear',\
+		'_resample_linear',\
 		'_pitch_snap',\
 		'_pitch_shift'\
 	]"

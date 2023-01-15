@@ -32,7 +32,7 @@ const copyPluginOptions = {
       to: '.',
     },
     { 
-      from: 'src/audio/pitchDetection/model', 
+      from: '../crepe_model', 
       to: 'crepeModel',
     },
     {

@@ -2,6 +2,39 @@
 #include <stdint.h>
 #include <stdlib.h>
 
+void upsample_linear(
+  float * old_array, 
+  int32_t old_length, 
+  float * new_array,
+  int32_t new_length
+) {
+  for (int32_t i = 0; i < new_length; i++) {
+    float fractional_index = (float) i / (float) (new_length - 1) * (float) (old_length - 1);
+    float lower = old_array[(int32_t) floor(fractional_index)];
+    float upper = old_array[(int32_t) ceil(fractional_index)];
+    float slope = upper - lower;
+    float dX = fractional_index - floor(fractional_index);
+    new_array[i] = lower + (slope * dX);
+  }
+}
+
+void downsample_box(
+  float * old_array, 
+  int32_t old_length, 
+  float * new_array,
+  int32_t new_length
+) {
+  float ratio = (float) old_length / (float) new_length;
+  for (int32_t i = 0; i < new_length; i++) {
+    float sum = 0;
+    for (int32_t j = 0; j < ratio; j++) {
+      int32_t index = (int32_t) (i * ratio) + j;
+      sum += old_array[index];
+    }
+    new_array[i] = sum / ratio;
+  }
+}
+
 int32_t get_num_windows(
   int32_t audio_size,
   int32_t window_size,

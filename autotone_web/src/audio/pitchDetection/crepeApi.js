@@ -10,7 +10,7 @@ let _model;
 let _sampleRate;
 
 export const getBufferSize = (sampleRate) => {
-  const minBufferSize = sampleRate / constants.MODEL_SAMPLE_RATE * constants.MODEL_MIN_WINDOW_SIZE;
+  const minBufferSize = sampleRate / constants.CREPE_SAMPLE_RATE * constants.CREPE_MIN_WINDOW_SIZE;
   return 2 ** Math.ceil(Math.log2(minBufferSize));
 };
 
@@ -63,8 +63,8 @@ const detectPitch = (buffer) => {
 };
 
 const resample = (buffer) => {
-  const interpolate = _sampleRate % constants.MODEL_SAMPLE_RATE !== 0;
-  const multiplier = _sampleRate / constants.MODEL_SAMPLE_RATE;
+  const interpolate = _sampleRate % constants.CREPE_SAMPLE_RATE !== 0;
+  const multiplier = _sampleRate / constants.CREPE_SAMPLE_RATE;
   const resampled = new Float32Array(1024);
   for (let i = 0; i < 1024; i++) {
     if (!interpolate) {

@@ -1,5 +1,19 @@
 #include <stdint.h>
 
+void upsample_linear(
+  float * old_array, 
+  int32_t old_length, 
+  float * new_array,
+  int32_t new_length
+);
+
+void downsample_box(
+  float * old_array, 
+  int32_t old_length, 
+  float * new_array,
+  int32_t new_length
+);
+
 int32_t get_num_windows(
   int32_t audio_size,
   int32_t window_size,

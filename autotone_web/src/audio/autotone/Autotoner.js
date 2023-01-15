@@ -1,5 +1,6 @@
 import { getScaleFreqs } from "../music/musicScales";
 import * as crepe from '../pitchDetection/crepe.js';
+import { CREPE_OSAMP } from "../pitchDetection/crepeConstants";
 import * as tuner from '../pitchShifting/tuner.js';
 import { PITCH_SHIFTING_OSAMP, PITCH_SHIFTING_WINDOW_SIZE } from "../pitchShifting/tunerConstants";
 import * as player from '../player/player.js';
@@ -26,7 +27,7 @@ export class Autotoner {
   async init() {
     const { sampleRate } = await recorder.init();
     const crepeBufferSize = await crepe.getBufferSize(sampleRate);
-    await recorder.initBufferProcessor(crepeBufferSize);
+    await recorder.initBufferProcessor(crepeBufferSize, CREPE_OSAMP);
     await player.init();
     await crepe.init(sampleRate);
     await tuner.init();
@@ -67,12 +68,15 @@ export class Autotoner {
       this._windowSize, 
       this._osamp,
     );
-    if (freqs.length > numWindows) {
-      throw Error('freqs.length > numWindows');
+    if (confidences.length === numWindows) {
+      console.log('No resampling');
+    } else if (confidences.length < numWindows) {
+      console.log('Upsampling');
+    } else {
+      console.log('Downsampling');
     }
-
-    this._confidences = await tuner.upsampleLinear(confidences, numWindows);
-    this._originalFreqs = await tuner.upsampleLinear(freqs, numWindows);
+    this._confidences = await tuner.resampleLinear(confidences, numWindows);
+    this._originalFreqs = await tuner.resampleLinear(freqs, numWindows);
     this._autotonedFreqs = await tuner.pitchSnap(this._originalFreqs, this._scaleFreqs);
     this._autotonedAudio = await tuner.pitchShift(
       audio,

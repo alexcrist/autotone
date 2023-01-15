@@ -2,10 +2,12 @@ export class BufferNode extends AudioWorkletNode {
 
   _buffers;
   _bufferSize;
+  _osamp;
 
-  constructor(context, bufferSize) {
-    super(context, 'buffer-processor', { parameterData: { bufferSize }});
+  constructor(context, bufferSize, osamp) {
+    super(context, 'buffer-processor', { parameterData: { bufferSize, osamp }});
     this._bufferSize = bufferSize;
+    this._osamp = osamp;
     this.port.onmessage = this.onMessage.bind(this);
     this.reset();
   }
@@ -20,17 +22,24 @@ export class BufferNode extends AudioWorkletNode {
   }
 
   getAudioData() {
-    const audioSize = this._buffers.length * this._bufferSize;
+    const hopSize = this._bufferSize / this._osamp;
+    const audioSize = this._bufferSize + ((this._buffers.length - 1) * hopSize);
     const audio = new Float32Array(audioSize);
-    for (let i = 0; i < this._buffers.length; i++) {
-      const buffer = this._buffers[i];
-      const offset = i * this._bufferSize;
-      audio.set(buffer, offset);
+    if (audioSize === 0) {
+      return;
+    }
+    audio.set(this._buffers[0]);
+    for (let i = 1; i < this._buffers.length; i++) {
+      const offset = this._bufferSize + (i - 1) * hopSize;
+      for (let j = 0; j < hopSize; j++) {
+        audio[offset + j] = this._buffers[i][this._bufferSize - hopSize + j];
+      }
     }
     return {
       audio,
       buffers: this._buffers,
       bufferSize: this._bufferSize,
+      osamp: this._osamp,
     };
   }
 }

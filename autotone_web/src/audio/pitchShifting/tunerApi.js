@@ -4,7 +4,7 @@ import { MAX_INT_16, MIN_INT_16 } from './tunerConstants.js';
 
 const wasm = new WasmModule();
 const tunerGetNumWindows = wasm.cwrap('get_num_windows', 'number', ['number', 'number', 'number']);
-const tunerUpsampleLinear = wasm.cwrap('upsample_linear', null, ['number', 'number', 'number', 'number']);
+const tunerResampleLinear = wasm.cwrap('resample_linear', null, ['number', 'number', 'number', 'number']);
 const tunerPitchSnap = wasm.cwrap('pitch_snap', null, ['number', 'number', 'number', 'number', 'number']);
 const tunerPitchShift = wasm.cwrap('pitch_shift', null, ['number', 'number', 'number', 'number', 'number', 'number', 'number', 'number', 'number', 'number', 'number']);
 
@@ -20,13 +20,13 @@ export const getNumWindows = (
   return tunerGetNumWindows(audioSize, windowSize, osamp);
 };
 
-export const upsampleLinear = (
+export const resampleLinear = (
   array, // Float32Array
   newLength
 ) => {
   const arrayPointer = wasm.float32ArrayToPointer(array);
   const outputPointer = wasm.float32ArrayToPointer(new Float32Array(newLength));
-  tunerUpsampleLinear(
+  tunerResampleLinear(
     arrayPointer.address,
     array.length,
     outputPointer.address,
