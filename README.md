@@ -8,6 +8,8 @@ Additionally, web workers are used to run the audio processing algorithms in the
 
 ## Try it out
 
+alexcrist.github.io/autotone/
+
 ## Resources
 
 * [CREPE: A Convolutional REpresentation for Pitch Estimation -- pre-trained model (ICASSP 2018)](https://github.com/marl/crepe)
