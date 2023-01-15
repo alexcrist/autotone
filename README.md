@@ -8,15 +8,6 @@ This project uses a pre-trained Tensorflow model provided by [CREPE](https://git
 
 Additionally, web workers are used to run the audio processing algorithms in the background, preventing the browser from becoming unresponsive.
 
-## Technologies used
-
-* TensorFlow.js
-* WebAssembly (Emscripten)
-* Web audio API
-* Web workers
-* React
-* Webpack
-
 ## Development instructions
 
 #### Dependencies
@@ -37,6 +28,15 @@ Additionally, web workers are used to run the audio processing algorithms in the
 #### Deploying
 
 Deploy the app to GitHub Pages using `scripts/deploy.sh`
+
+## Technologies used
+
+* TensorFlow.js
+* WebAssembly (Emscripten)
+* Web audio API
+* Web workers
+* React
+* Webpack
 
 ## Resources
 
