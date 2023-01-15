@@ -28,7 +28,7 @@ const cssLoaders = [
 const copyPluginOptions = {
   patterns: [
     {
-      from: 'src/index.html',
+      from: 'static',
       to: '.',
     },
     { 

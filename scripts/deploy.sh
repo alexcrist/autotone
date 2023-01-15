@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
-scripts/build.sh;
-cd react;
+cd tuner;
+make;
+cd ../react;
+npm run build;
 npm run deploy;
