@@ -22,6 +22,8 @@ https://alexcrist.github.io/autotone/
 
 #### Dependencies
 * Node v14.18.2
+* NPM v6.14.15
+* Emscripten v3.1.29
 
 1. Clone this repo
 2. Run the bootstrap script `scripts/bootstrap.sh`
