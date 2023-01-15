@@ -6,7 +6,7 @@ This project uses a pre-trained Tensorflow model provided by [CREPE](https://git
 
 Additionally, web workers are used to run the audio processing algorithms in the background, preventing the browser from becoming unresponsive.
 
-## Running the project locally
+## Try it out
 
 ## Resources
 
