@@ -11,7 +11,8 @@ export const Player = ({
   audio,
   getFreqs,
   getConfidences,
-  getSampleRate
+  getSampleRate,
+  color,
 }) => {
   if (!audio) {
     return null;
@@ -36,6 +37,7 @@ export const Player = ({
         <Chart 
           freqs={getFreqs()} 
           confidences={getConfidences()}
+          color={color}
         />
       </div>
     </Card>

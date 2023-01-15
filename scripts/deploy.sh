@@ -1,4 +1,5 @@
-scripts/build_wasm.sh;
-cd autotone_web;
-npm run build;
+#!/usr/bin/env bash
+
+scripts/build.sh;
+cd react;
 npm run deploy;

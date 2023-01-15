@@ -18,7 +18,7 @@
 #include <stdlib.h>
 #include <complex.h>
 #include <string.h>
-#include "kiss_fft/kiss_fftr.h"
+#include "../kiss_fft/kiss_fftr.h"
 
 static double * freqs;
 static double * magns;

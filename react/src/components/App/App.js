@@ -73,6 +73,7 @@ export const App = () => {
         getFreqs={() => autotoner.getOriginalFreqs()}
         getConfidences={() => autotoner.getConfidences()}
         isProcessing={isProcessing}
+        color='#0049B6'
       />
       <Player
         title='Autotoned audio'
@@ -81,6 +82,7 @@ export const App = () => {
         getFreqs={() => autotoner.getAutotonedFreqs()}
         getConfidences={() => autotoner.getConfidences()}
         isProcessing={isProcessing}
+        color='#FF1D58'
       />
       <div className={styles.footer}>
         <a 

@@ -1,10 +1,9 @@
-OUTPUT_FILE = -o src/audio/pitchShifting/wasm/tunerWasm.js
+OUTPUT_DIR = ../react/src/audio/pitchShifting/wasm
+OUTPUT_FILE = -o ${OUTPUT_DIR}/tunerWasm.js
 
-INPUT_FILES = $(wildcard ../tuner/*.c) \
-							$(wildcard ../smb_pitch_shifter/*.c) \
-							$(wildcard ../smb_pitch_shifter/kiss_fft/*.c)
-
-INCLUDE_DIRS = -I../smb_pitch_shifter
+INPUT_FILES = $(wildcard *.c) \
+							$(wildcard smb_pitch_shift/*.c) \
+							$(wildcard kiss_fft/*.c)
 
 OPTIMIZATION = -O1
 
@@ -26,7 +25,7 @@ EMCC_OPTIONS = \
 	]"
 
 wasm:
-	mkdir -p src/audio/pitchShifting/wasm;
+	mkdir -p ${OUTPUT_DIR}
 	emcc \
 		${INPUT_FILES} \
 		${OUTPUT_FILE} \

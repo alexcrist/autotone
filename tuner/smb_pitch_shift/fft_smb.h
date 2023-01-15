@@ -1,3 +1,4 @@
+#include <stdint.h>
 #include <stdlib.h>
 
 void init_fft_smb(

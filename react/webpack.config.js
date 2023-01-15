@@ -32,7 +32,7 @@ const copyPluginOptions = {
       to: '.',
     },
     { 
-      from: '../crepe_model', 
+      from: '../crepe/model', 
       to: 'crepeModel',
     },
     {

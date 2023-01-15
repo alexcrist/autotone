@@ -1,3 +1,4 @@
+#include <stdint.h>
 #include <stdlib.h>
 
 void smb_pitch_shift(

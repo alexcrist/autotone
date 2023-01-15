@@ -5,7 +5,7 @@
 #include <math.h>
 #include <stdio.h>
 #include "tuner_utils.h"
-#include "smb_api.h"
+#include "smb_pitch_shift/smb_api.h"
 
 // Performs resampling of the given array
 //   upsampling = linear
