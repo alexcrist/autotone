@@ -8,7 +8,23 @@ Additionally, web workers are used to run the audio processing algorithms in the
 
 ## Try it out
 
-alexcrist.github.io/autotone/
+https://alexcrist.github.io/autotone/
+
+## Technologies used
+
+* TensorFlow.js
+* WebAssembly (Emscripten)
+* Web workers
+* Web audio API
+* React
+
+## Development instructions
+
+#### Project set-up
+
+#### Running locally
+
+
 
 ## Resources
 
