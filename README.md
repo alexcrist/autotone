@@ -2,7 +2,7 @@
 
 https://alexcrist.github.io/autotone/
 
-An automatic pitch correction web application. Like Autotune, but open source!
+A vocal pitch correction web application (like Autotune).
 
 This project uses a pre-trained Tensorflow model provided by [CREPE](https://github.com/marl/crepe) for pitch detction and [Stephan M. Bernsee's Fourier-transform based method of pitch shifting](http://blogs.zynaptiq.com/bernsee/pitch-shifting-using-the-ft/). WebAssembly is used to run the C-based pitch shifting library while TensorflowJS runs the pitch detction model.
 
