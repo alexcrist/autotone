@@ -13,8 +13,8 @@ self.onmessage = createWebWorkerReceiver(self.postMessage, [
     fn: tuner.getNumWindows,
   },
   {
-    key: constants.TUNER_UPSAMPLE_FREQS,
-    fn: tuner.upsampleFreqs,
+    key: constants.TUNER_UPSAMPLE_LINEAR,
+    fn: tuner.upsampleLinear,
   },
   {
     key: constants.TUNER_PITCH_SNAP,

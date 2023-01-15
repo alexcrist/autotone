@@ -9,6 +9,9 @@ import { DEFAULT_BASE_NOTE, DEFAULT_SCALE_NAME } from "./autotoneConstants";
 export class Autotoner {
 
   _scaleFreqs;
+  _windowSize;
+  _osamp;
+
   _recordingData;
   _autotonedAudio;
   _originalFreqs;
@@ -16,6 +19,8 @@ export class Autotoner {
 
   constructor() {
     this._scaleFreqs = getScaleFreqs(DEFAULT_BASE_NOTE, DEFAULT_SCALE_NAME);
+    this._windowSize = PITCH_SHIFTING_WINDOW_SIZE;
+    this._osamp = PITCH_SHIFTING_OSAMP;
   }
 
   async init() {
@@ -41,6 +46,14 @@ export class Autotoner {
     this._scaleFreqs = getScaleFreqs(baseNote, scaleName);
   }
 
+  setWindowSize(windowSize) {
+    this._windowSize = windowSize;
+  }
+
+  setOsamp(osamp) {
+    this._osamp = osamp;
+  }
+
   async autotone() {
     if (!this._recordingData) {
       return null;
@@ -48,21 +61,24 @@ export class Autotoner {
     const { audio, buffers, sampleRate } = recorder.getData();
     const freqData = await crepe.detectPitches(buffers);
     const freqs = new Float32Array(freqData.map((data) => data.freq));
+    const confidences = new Float32Array(freqData.map((data) => data.confidence));
     const numWindows = await tuner.getNumWindows(
       audio.length, 
-      PITCH_SHIFTING_WINDOW_SIZE, 
-      PITCH_SHIFTING_OSAMP,
+      this._windowSize, 
+      this._osamp,
     );
     if (freqs.length > numWindows) {
       throw Error('freqs.length > numWindows');
     }
-    this._originalFreqs = await tuner.upsampleFreqs(freqs, numWindows);
+
+    this._confidences = await tuner.upsampleLinear(confidences, numWindows);
+    this._originalFreqs = await tuner.upsampleLinear(freqs, numWindows);
     this._autotonedFreqs = await tuner.pitchSnap(this._originalFreqs, this._scaleFreqs);
     this._autotonedAudio = await tuner.pitchShift(
       audio,
       sampleRate,
-      PITCH_SHIFTING_WINDOW_SIZE,
-      PITCH_SHIFTING_OSAMP,
+      this._windowSize,
+      this._osamp,
       this._originalFreqs,
       this._autotonedFreqs,
     );
@@ -86,5 +102,9 @@ export class Autotoner {
 
   getAutotonedFreqs() {
     return this._autotonedFreqs || null;
+  }
+
+  getConfidences() {
+    return this._confidences || null;
   }
 }

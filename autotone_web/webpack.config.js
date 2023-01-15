@@ -1,7 +1,6 @@
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 const { CleanPlugin, ProvidePlugin } = require('webpack');
-const workerConfig = require('./webpack.workerConfig.js');
 
 const jsLoaders = [
   {
@@ -50,6 +49,9 @@ const providePluginOptions = {
 const config = {
   entry: {
     index: './src/index.js',
+    crepeWorker: './src/audio/pitchDetection/crepe.worker.js',
+    tunerWorker: './src/audio/pitchShifting/tuner.worker.js',
+    BufferProcessor: './src/audio/recorder/BufferProcessor.js',
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -73,13 +75,7 @@ const config = {
     new CopyPlugin(copyPluginOptions),
     new ProvidePlugin(providePluginOptions),
   ],
-  devServer: {
-    static: 'dist',
-    compress: true,
-    port: 8080,
-    open: true,
-  },
-  devtool: 'cheap-source-map',
+  devtool: false,
 };
 
-module.exports = [workerConfig, config];
+module.exports = config;

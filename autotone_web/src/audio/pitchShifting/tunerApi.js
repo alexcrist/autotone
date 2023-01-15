@@ -4,7 +4,7 @@ import { MAX_INT_16, MIN_INT_16 } from './tunerConstants.js';
 
 const wasm = new WasmModule();
 const tunerGetNumWindows = wasm.cwrap('get_num_windows', 'number', ['number', 'number', 'number']);
-const tunerUpsampleFreqs = wasm.cwrap('upsample_freqs', null, ['number', 'number', 'number', 'number']);
+const tunerUpsampleLinear = wasm.cwrap('upsample_linear', null, ['number', 'number', 'number', 'number']);
 const tunerPitchSnap = wasm.cwrap('pitch_snap', null, ['number', 'number', 'number', 'number', 'number']);
 const tunerPitchShift = wasm.cwrap('pitch_shift', null, ['number', 'number', 'number', 'number', 'number', 'number', 'number', 'number', 'number', 'number', 'number']);
 
@@ -20,20 +20,20 @@ export const getNumWindows = (
   return tunerGetNumWindows(audioSize, windowSize, osamp);
 };
 
-export const upsampleFreqs = (
-  freqs, // Float32Array
+export const upsampleLinear = (
+  array, // Float32Array
   newLength
 ) => {
-  const freqsPointer = wasm.float32ArrayToPointer(freqs);
+  const arrayPointer = wasm.float32ArrayToPointer(array);
   const outputPointer = wasm.float32ArrayToPointer(new Float32Array(newLength));
-  tunerUpsampleFreqs(
-    freqsPointer.address,
-    freqs.length,
+  tunerUpsampleLinear(
+    arrayPointer.address,
+    array.length,
     outputPointer.address,
     newLength,
   );
   const output = wasm.pointerToFloat32Array(outputPointer.address, newLength);
-  freqsPointer.free();
+  arrayPointer.free();
   outputPointer.free();
   return output;
 }

@@ -10,6 +10,7 @@ export const Player = ({
   title,
   audio,
   getFreqs,
+  getConfidences,
   getSampleRate
 }) => {
   if (!audio) {
@@ -30,8 +31,12 @@ export const Player = ({
           small
           onClick={onClickPlay}
           Icon={FaPlay}
+          className={styles.button}
         />
-        <Chart data={getFreqs()} />
+        <Chart 
+          freqs={getFreqs()} 
+          confidences={getConfidences()}
+        />
       </div>
     </Card>
   );

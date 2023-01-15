@@ -7,8 +7,8 @@
 #include "tuner_utils.h"
 #include "smb_api.h"
 
-// Upsamples an array of frequencies with special handling for freqs equal to -1
-void upsample_freqs(
+// Performs linear upsampling of the given array
+void upsample_linear(
   float * old_array, 
   int32_t old_length, 
   float * new_array,
@@ -16,24 +16,11 @@ void upsample_freqs(
 ) {
   for (int32_t i = 0; i < new_length; i++) {
     float fractional_index = (float) i / (float) (new_length - 1) * (float) (old_length - 1);
-    int32_t lower = old_array[(int32_t) floor(fractional_index)];
-    int32_t upper = old_array[(int32_t) ceil(fractional_index)];
+    float lower = old_array[(int32_t) floor(fractional_index)];
+    float upper = old_array[(int32_t) ceil(fractional_index)];
     float slope = upper - lower;
     float dX = fractional_index - floor(fractional_index);
-
-    // If we have a -1, use nearest neighbor
-    if (lower == -1 || upper == -1) {
-      if (dX < 0.5) {
-        new_array[i] = lower;
-      } else {
-        new_array[i] = upper;
-      }
-    } 
-    
-    // Else, use linear
-    else {
-      new_array[i] = lower + (slope * dX);
-    }
+    new_array[i] = lower + (slope * dX);
   }
 }
 

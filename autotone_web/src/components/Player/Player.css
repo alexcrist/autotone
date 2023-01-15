@@ -4,6 +4,6 @@
   align-items: center;
 }
 
-.graph {
-  flex: 1;
+.button {
+  margin-right: 10px;
 }

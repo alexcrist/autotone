@@ -35,6 +35,15 @@ export const App = () => {
     setAutotonedAudio(autotoner.getAutotonedAudio());
   };
 
+  const reAutotone = async () => {
+    setAutotonedAudio(null);
+    setIsProcessing(true);
+    await autotoner.autotone();
+    setIsProcessing(false);
+    setOriginalAudio(autotoner.getOriginalAudio());
+    setAutotonedAudio(autotoner.getAutotonedAudio());
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.row}>
@@ -46,8 +55,10 @@ export const App = () => {
         />
         <Settings 
           originalAudio={originalAudio}
-          setScale={autotoner.setScale}
-          autotone={autotoner.autotone}
+          setAutotonerScale={(note, name) => autotoner.setScale(note, name)}
+          setAutotonerWindowSize={(windowSize) => autotoner.setWindowSize(windowSize)}
+          setAutotonerOsamp={(osamp) => autotoner.setOsamp(osamp)}
+          autotone={reAutotone}
         />
       </div>
       <Player
@@ -55,6 +66,7 @@ export const App = () => {
         audio={originalAudio}
         getSampleRate={() => autotoner.getSampleRate()}
         getFreqs={() => autotoner.getOriginalFreqs()}
+        getConfidences={() => autotoner.getConfidences()}
         isProcessing={isProcessing}
       />
       <Player
@@ -62,6 +74,7 @@ export const App = () => {
         audio={autotonedAudio}
         getSampleRate={() => autotoner.getSampleRate()}
         getFreqs={() => autotoner.getAutotonedFreqs()}
+        getConfidences={() => autotoner.getConfidences()}
         isProcessing={isProcessing}
       />
       <div className={styles.footer}>

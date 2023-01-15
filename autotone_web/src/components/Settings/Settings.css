@@ -1,1 +1,8 @@
- 
+.row {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.row * {
+  margin-right: 10px;
+}
