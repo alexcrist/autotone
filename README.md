@@ -44,6 +44,8 @@ Deploy the app to GitHub Pages using `scripts/deploy.sh`
 
 ## Future work
 
+* Make UI more responsive
+  * Add graceful resizing for Chart component
 * Allow user to set pitch detection over-sampling factor
 * Add export functionality
 * Add more types of scales
