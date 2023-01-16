@@ -37,6 +37,7 @@ export const App = () => {
   };
 
   const reAutotone = async () => {
+    setOriginalAudio(null);
     setAutotonedAudio(null);
     setIsProcessing(true);
     await autotoner.autotone();
@@ -47,25 +48,33 @@ export const App = () => {
 
   return (
     <div className={styles.container}>
+      <div className={styles.header}>
+        <div className={styles.headerText}>
+          <Text className={styles.title}>
+            Autotone
+          </Text>
+          <Text className={styles.description}>
+            A vocal pitch correction web application
+          </Text>
+        </div>
+        <a className={styles.link} href="https://github.com/alexcrist/autotone" target="_blank">
+          the code
+        </a>
+      </div>
       <div className={styles.row}>
         <Record
           isReady={isReady}
           isRecording={isRecording}
+          isProcessing={isProcessing}
           record={record}
           stopRecording={stopRecording}
         />
         <Settings 
           originalAudio={originalAudio}
-          setAutotonerScale={(note, name) => autotoner.setScale(note, name)}
-          setAutotonerWindowSize={(windowSize) => autotoner.setWindowSize(windowSize)}
-          setAutotonerOsamp={(osamp) => autotoner.setOsamp(osamp)}
-          autotone={reAutotone}
+          reAutotone={reAutotone}
+          getAutotoner={() => autotoner}
         />
       </div>
-      {isProcessing 
-        ? <Text className={styles.loading}>Processing...</Text> 
-        : null
-      }
       <Player
         title='Original audio'
         audio={originalAudio}
@@ -84,14 +93,6 @@ export const App = () => {
         isProcessing={isProcessing}
         color='#FF1D58'
       />
-      <div className={styles.footer}>
-        <a 
-          href="https://github.com/alexcrist/autotone"
-          target="_blank"
-        >
-          See the code
-        </a>
-      </div>
     </div>
   );
 };

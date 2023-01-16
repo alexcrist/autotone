@@ -2,3 +2,14 @@
   align-items: center;
   justify-content: center;
 }
+
+.button {
+  background-color: #003A8F;
+}
+
+@media (max-width: 450px) {
+  .card {
+    flex-direction: column;
+    width: 65px;
+  }
+}

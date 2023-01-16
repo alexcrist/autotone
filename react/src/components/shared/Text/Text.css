@@ -7,3 +7,10 @@
 .center {
   text-align: center;
 }
+
+@media (max-width: 450px) {
+  .text {
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
+}

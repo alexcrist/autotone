@@ -14,4 +14,4 @@ export const CENT_MAPPING = tf.add(tf.linspace(0, 7180, 360), tf.tensor(1997.379
 
 // Configurable pitch detection settings
 
-export const CREPE_OSAMP = 16;
+export const DEFAULT_CREPE_OSAMP = 16;

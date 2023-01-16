@@ -7,21 +7,26 @@ import styles from './Record.css';
 export const Record = ({
   isReady,
   isRecording,
+  isProcessing,
   record,
   stopRecording,
 }) => {
 
+  const isDisabled = !isReady || isProcessing;
+
   let text;
   if (!isReady) {
-    text = 'Loading Autotoner model...';
-  } else if (!isRecording) {
-    text = 'Ready to record';
-  } else {
+    text = 'Loading CREPE model...';
+  } else if (isProcessing) {
+    text = 'Processing...';
+  } else if (isRecording) {
     text = 'Recording...';
+  } else {
+    text = 'Ready to record';
   }
 
   const onClick = () => {
-    if (!isReady) {
+    if (isDisabled) {
       return;
     }
     if (isRecording) {
@@ -36,11 +41,12 @@ export const Record = ({
       <Text center>
         {text}
       </Text>
-      <Button 
+      <Button
+        className={styles.button}
         large 
         onClick={onClick}
         Icon={isRecording ? FaStop : FaCircle}
-        disabled={!isReady}
+        disabled={isDisabled}
       />
     </Card>
   );

@@ -10,17 +10,23 @@ export const Chart = ({ freqs, confidences, color }) => {
   const ref = useRef(null);
   const [dims, setDims] = useState({ width: 0, height: 0 });
 
-  const updateDims = ({ clientWidth, clientHeight }) => {
-    if (dims.width !== clientWidth || dims.height !== clientHeight) {
-      setDims({ width: clientWidth, height: clientHeight });
-    }
-  };    
-
-  useEffect(() => {
+  const updateDims = () => {
     if (ref) {
-      updateDims(ref.current);
+      console.log('update dims');
+      const { clientWidth, clientHeight } = ref.current;
+      if (dims.width !== clientWidth || dims.height !== clientHeight) {
+        setDims({ width: clientWidth, height: clientHeight });
+      }
       draw(freqs, confidences, color, ref.current.getContext('2d'));
     }
+  };
+
+  useEffect(() => {
+    window.addEventListener('resize', () => setDims({ width: 0, height: 0 }));
+  }, []);
+
+  useEffect(() => {
+    updateDims();
   }, [ref, freqs, confidences, dims]);
 
   return (

@@ -8,6 +8,9 @@
   margin: 10px;
 }
 
-.flex {
-  flex: 1;
+@media (max-width: 450px) {
+  .card {
+    padding: 5px;
+    margin: 5px;
+  }
 }

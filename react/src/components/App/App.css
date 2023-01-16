@@ -1,18 +1,43 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 20px;
+  margin-bottom: 10px;
+}
+
+.headerText {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 20px;
+  margin-bottom: 5px;
+  color: #003A8F;
+}
+
+.description {
+  margin: 0;
+  opacity: 0.5;
+}
+
 .row {
   display: flex;
 }
 
-.footer {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-}
-
-.footer a {
+.link {
+  font-family: 'Press Start 2P', monospace;
   color: darkslategray;
   text-decoration: none;
+  font-size: 14px;
+  text-align: center;
+  line-height: 1.5;
+  margin-left: 20px;
 }
 
-.loading {
-  margin-left: 10px;
+.link:hover {
+  opacity: 0.5;
 }

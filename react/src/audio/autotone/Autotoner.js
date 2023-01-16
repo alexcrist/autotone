@@ -1,8 +1,8 @@
 import { getScaleFreqs } from "../music/musicScales";
 import * as crepe from '../pitchDetection/crepe.js';
-import { CREPE_OSAMP } from "../pitchDetection/crepeConstants";
+import { DEFAULT_CREPE_OSAMP } from "../pitchDetection/crepeConstants";
 import * as tuner from '../pitchShifting/tuner.js';
-import { PITCH_SHIFTING_OSAMP, PITCH_SHIFTING_WINDOW_SIZE } from "../pitchShifting/tunerConstants";
+import { DEFAULT_TUNER_OSAMP, DEFAULT_TUNER_WINDOW_SIZE } from "../pitchShifting/tunerConstants";
 import * as player from '../player/player.js';
 import * as recorder from '../recorder/recorder.js';
 import { DEFAULT_BASE_NOTE, DEFAULT_SCALE_NAME } from "./autotoneConstants";
@@ -10,8 +10,9 @@ import { DEFAULT_BASE_NOTE, DEFAULT_SCALE_NAME } from "./autotoneConstants";
 export class Autotoner {
 
   _scaleFreqs;
-  _windowSize;
-  _osamp;
+  _tunerWindowSize;
+  _tunerOsamp;
+  _crepeOsamp;
 
   _recordingData;
   _autotonedAudio;
@@ -20,14 +21,15 @@ export class Autotoner {
 
   constructor() {
     this._scaleFreqs = getScaleFreqs(DEFAULT_BASE_NOTE, DEFAULT_SCALE_NAME);
-    this._windowSize = PITCH_SHIFTING_WINDOW_SIZE;
-    this._osamp = PITCH_SHIFTING_OSAMP;
+    this._tunerWindowSize = DEFAULT_TUNER_WINDOW_SIZE;
+    this._tunerOsamp = DEFAULT_TUNER_OSAMP;
+    this._crepeOsamp = DEFAULT_CREPE_OSAMP;
   }
 
   async init() {
     const { sampleRate } = await recorder.init();
     const crepeBufferSize = await crepe.getBufferSize(sampleRate);
-    await recorder.initBufferProcessor(crepeBufferSize, CREPE_OSAMP);
+    await recorder.initBufferProcessor(crepeBufferSize, this._crepeOsamp);
     await player.init();
     await crepe.init(sampleRate);
     await tuner.init();
@@ -47,12 +49,12 @@ export class Autotoner {
     this._scaleFreqs = getScaleFreqs(baseNote, scaleName);
   }
 
-  setWindowSize(windowSize) {
-    this._windowSize = windowSize;
+  setTunerWindowSize(windowSize) {
+    this._tunerWindowSize = Number(windowSize);
   }
 
-  setOsamp(osamp) {
-    this._osamp = osamp;
+  setTunerOsamp(osamp) {
+    this._tunerOsamp = Number(osamp);
   }
 
   async autotone() {
@@ -65,8 +67,8 @@ export class Autotoner {
     const confidences = new Float32Array(freqData.map((data) => data.confidence));
     const numWindows = await tuner.getNumWindows(
       audio.length, 
-      this._windowSize, 
-      this._osamp,
+      this._tunerWindowSize, 
+      this._tunerOsamp,
     );
     if (confidences.length === numWindows) {
       console.log('No resampling');
@@ -81,8 +83,8 @@ export class Autotoner {
     this._autotonedAudio = await tuner.pitchShift(
       audio,
       sampleRate,
-      this._windowSize,
-      this._osamp,
+      this._tunerWindowSize,
+      this._tunerOsamp,
       this._originalFreqs,
       this._autotonedFreqs,
     );

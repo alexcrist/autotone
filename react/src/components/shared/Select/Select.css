@@ -4,3 +4,9 @@
   border-color: slategray;
   border-radius: 4px;
 }
+
+@media (max-width: 450px) {
+  .text {
+    font-size: 10px;
+  }
+}

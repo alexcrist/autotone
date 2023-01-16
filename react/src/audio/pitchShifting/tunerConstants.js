@@ -13,5 +13,5 @@ export const MAX_INT_16 = 32767;
 
 // Pitch shifting settings
 
-export const PITCH_SHIFTING_WINDOW_SIZE = 1024;
-export const PITCH_SHIFTING_OSAMP = 32;
+export const DEFAULT_TUNER_WINDOW_SIZE = 256;
+export const DEFAULT_TUNER_OSAMP = 64;

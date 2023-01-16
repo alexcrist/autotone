@@ -1,8 +1,37 @@
-.row {
+.card {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+.block {
   display: flex;
   margin-bottom: 10px;
+  margin-right: 20px;
+  flex-direction: column;
+}
+
+.row {
+  display: flex; 
 }
 
 .row * {
   margin-right: 10px;
+}
+
+.smallText {
+  opacity: 0.8;
+  font-size: 12px;
+}
+
+@media (max-width: 450px) {
+  .card {
+    flex-direction: column;
+  }
+
+  .block {
+    margin-right: 0;
+  }
+
 }
