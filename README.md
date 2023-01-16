@@ -44,6 +44,7 @@ Deploy the app to GitHub Pages using `scripts/deploy.sh`
 
 ## Future work
 
+* Allow user to set pitch detection over-sampling factor
 * Add export functionality
 * Add more types of scales
 * Allow user to pitch correct according to a separate target audio or MIDI input
