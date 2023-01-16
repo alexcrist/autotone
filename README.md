@@ -8,7 +8,7 @@ This project works using CREPE's pitch detection model and Stephan Bernsee's app
 
 ## How it works
 
-To perform vocal pitch correct, the input audio goes through two stages: pitch detection and pitch shifting.
+To perform vocal pitch correction, the input audio goes through two stages: pitch detection and pitch shifting.
 
 To detect pitches, one of CREPE's pre-trained models is run using TensorFlowJS. To pitch shift, WebAssembly is used to run a C library that performs Fourier-based pitch shifting according to Stephan Bernsee's blog post from 1999. Additionally, the audio processing algorithms are run in the background on web workers to prevent the browser from becoming unresponsive.
 
