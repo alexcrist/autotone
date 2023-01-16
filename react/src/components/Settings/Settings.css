@@ -20,9 +20,14 @@
   margin-right: 10px;
 }
 
+.text {
+  margin-bottom: 5px;
+}
+
 .smallText {
   opacity: 0.8;
   font-size: 12px;
+  margin-bottom: 5px;
 }
 
 @media (max-width: 450px) {

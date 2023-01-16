@@ -37,25 +37,35 @@ export const Settings = ({
     <Card className={styles.card}>
 
       <div className={styles.block}>
-        <Text>
+        <Text className={styles.text}>
           Scale
         </Text>
         <div className={styles.row}>
-          <Select
-            options={NOTES}
-            value={scaleBaseNote}
-            setValue={setScaleBaseNote}
-          />
-          <Select
-            options={SCALE_TYPES.map((scale) => scale.name)}
-            value={scaleName}
-            setValue={setScaleName}
-          />
+          <div>
+           <Text className={styles.smallText}>
+              Tonic
+            </Text>
+            <Select
+              options={NOTES}
+              value={scaleBaseNote}
+              setValue={setScaleBaseNote}
+            />
+          </div>
+          <div>
+           <Text className={styles.smallText}>
+              Mode
+            </Text>
+            <Select
+              options={SCALE_TYPES.map((scale) => scale.name)}
+              value={scaleName}
+              setValue={setScaleName}
+            />
+          </div>
         </div>
       </div>
 
       <div className={styles.block}>
-        <Text>
+        <Text className={styles.text}>
           Pitch shifting
         </Text>
         <div className={styles.row}>
