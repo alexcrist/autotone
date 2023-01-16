@@ -41,3 +41,8 @@ Deploy the app to GitHub Pages using `scripts/deploy.sh`
 * Web workers
 * React
 * Webpack
+
+## Future work
+
+* Add export functionality
+* Add more types of scales
