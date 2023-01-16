@@ -2,8 +2,8 @@ OUTPUT_DIR = ../react/src/audio/pitchShifting/wasm
 OUTPUT_FILE = -o ${OUTPUT_DIR}/tunerWasm.js
 
 INPUT_FILES = $(wildcard *.c) \
-							$(wildcard smb_pitch_shift/*.c) \
-							$(wildcard kiss_fft/*.c)
+              $(wildcard smb_pitch_shift/*.c) \
+              $(wildcard kiss_fft/*.c)
 
 OPTIMIZATION = -O1
 
