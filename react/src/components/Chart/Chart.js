@@ -12,7 +12,6 @@ export const Chart = ({ freqs, confidences, color }) => {
 
   const updateDims = () => {
     if (ref) {
-      console.log('update dims');
       const { clientWidth, clientHeight } = ref.current;
       if (dims.width !== clientWidth || dims.height !== clientHeight) {
         setDims({ width: clientWidth, height: clientHeight });

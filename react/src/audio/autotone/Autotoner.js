@@ -45,51 +45,6 @@ export class Autotoner {
     await this.autotone();
   }
 
-  setScale(baseNote, scaleName) {
-    this._scaleFreqs = getScaleFreqs(baseNote, scaleName);
-  }
-
-  setTunerWindowSize(windowSize) {
-    this._tunerWindowSize = Number(windowSize);
-  }
-
-  setTunerOsamp(osamp) {
-    this._tunerOsamp = Number(osamp);
-  }
-
-  async autotone() {
-    if (!this._recordingData) {
-      return null;
-    }
-    const { audio, buffers, sampleRate } = recorder.getData();
-    const freqData = await crepe.detectPitches(buffers);
-    const freqs = new Float32Array(freqData.map((data) => data.freq));
-    const confidences = new Float32Array(freqData.map((data) => data.confidence));
-    const numWindows = await tuner.getNumWindows(
-      audio.length, 
-      this._tunerWindowSize, 
-      this._tunerOsamp,
-    );
-    if (confidences.length === numWindows) {
-      console.log('No resampling');
-    } else if (confidences.length < numWindows) {
-      console.log('Upsampling');
-    } else {
-      console.log('Downsampling');
-    }
-    this._confidences = await tuner.resampleLinear(confidences, numWindows);
-    this._originalFreqs = await tuner.resampleLinear(freqs, numWindows);
-    this._autotonedFreqs = await tuner.pitchSnap(this._originalFreqs, this._scaleFreqs);
-    this._autotonedAudio = await tuner.pitchShift(
-      audio,
-      sampleRate,
-      this._tunerWindowSize,
-      this._tunerOsamp,
-      this._originalFreqs,
-      this._autotonedFreqs,
-    );
-  }
-
   getSampleRate() {
     return this._recordingData?.sampleRate || null;
   }
@@ -112,5 +67,60 @@ export class Autotoner {
 
   getConfidences() {
     return this._confidences || null;
+  }
+
+  setScale(baseNote, scaleName) {
+    this._scaleFreqs = getScaleFreqs(baseNote, scaleName);
+    this._autotonedFreqs = null;
+  }
+
+  setTunerWindowSize(windowSize) {
+    this._tunerWindowSize = Number(windowSize);
+    this._autotonedFreqs = null;
+  }
+
+  setTunerOsamp(osamp) {
+    this._tunerOsamp = Number(osamp);
+    this._autotonedFreqs = null;
+  }
+
+  async autotone() {
+    if (!this._recordingData) {
+      return;
+    }
+    if (!this._originalFreqs) {
+      await this._pitchDetect();
+    }
+    if (!this._autotonedFreqs) {
+      await this._pitchShift();
+    }
+  }
+
+  async _pitchDetect() {
+    const { audio, buffers } = recorder.getData();
+    const freqData = await crepe.detectPitches(buffers);
+    const freqs = new Float32Array(freqData.map((data) => data.freq));
+    const confidences = new Float32Array(freqData.map((data) => data.confidence));
+    const numWindows = await tuner.getNumWindows(
+      audio.length, 
+      this._tunerWindowSize, 
+      this._tunerOsamp,
+    );
+    this._confidences = await tuner.resampleLinear(confidences, numWindows);
+    this._originalFreqs = await tuner.resampleLinear(freqs, numWindows);
+    this._autotonedFreqs = null;
+  }
+
+  async _pitchShift() {
+    const { audio, sampleRate } = recorder.getData();
+    this._autotonedFreqs = await tuner.pitchSnap(this._originalFreqs, this._scaleFreqs);
+    this._autotonedAudio = await tuner.pitchShift(
+      audio,
+      sampleRate,
+      this._tunerWindowSize,
+      this._tunerOsamp,
+      this._originalFreqs,
+      this._autotonedFreqs,
+    );
   }
 }
