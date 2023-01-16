@@ -6,13 +6,13 @@ This project works using CREPE's pitch detection model and Stephan Bernsee's app
 * [CREPE: A Convolutional REpresentation for Pitch Estimation -- pre-trained model (ICASSP 2018)](https://github.com/marl/crepe)
 * [Pitch Shifting Using The Fourier Transform by Stephan Bernsee](http://blogs.zynaptiq.com/bernsee/pitch-shifting-using-the-ft/)
 
-## How it works
+## 🤖 How it works
 
 To perform vocal pitch correction, the input audio goes through two stages: pitch detection and pitch shifting.
 
 To detect pitches, one of CREPE's pre-trained models is run using TensorFlowJS. To pitch shift, WebAssembly is used to run a C library that performs Fourier-based pitch shifting according to Stephan Bernsee's blog post above. Additionally, the audio processing algorithms are run in the background on web workers to prevent the browser from becoming unresponsive.
 
-## Development
+## 💻 Development
 
 #### Dependencies
 
@@ -33,7 +33,7 @@ To detect pitches, one of CREPE's pre-trained models is run using TensorFlowJS. 
 
 Deploy the app to GitHub Pages using `scripts/deploy.sh`
 
-## Technologies used
+## 📚 Technologies used
 
 * TensorFlow.js
 * WebAssembly (Emscripten)
