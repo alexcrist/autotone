@@ -1,12 +1,14 @@
 # Autotone
 
-https://alexcrist.github.io/autotone/
+> A vocal pitch correction web application (like Autotune): https://alexcrist.github.io/autotone/
 
-A vocal pitch correction web application (like Autotune).
+This project works using CREPE's pitch detection model and Stephan Bernsee's approach to Fourier-transform based pitch shifting:
+* [CREPE: A Convolutional REpresentation for Pitch Estimation -- pre-trained model (ICASSP 2018)](https://github.com/marl/crepe)
+* [Pitch Shifting Using The Fourier Transform by Stephan Bernsee](http://blogs.zynaptiq.com/bernsee/pitch-shifting-using-the-ft/)
 
-This project uses a pre-trained Tensorflow model provided by [CREPE](https://github.com/marl/crepe) for pitch detction and [Stephan M. Bernsee's Fourier-transform based method of pitch shifting](http://blogs.zynaptiq.com/bernsee/pitch-shifting-using-the-ft/). WebAssembly is used to run the C-based pitch shifting library while TensorflowJS runs the pitch detction model.
+To perform 'autotoning', audio goes through two stages: pitch detection and pitch shifting.
 
-Additionally, web workers are used to run the audio processing algorithms in the background, preventing the browser from becoming unresponsive.
+To detect pitches, one of CREPE's pre-trained models is run using TensorFlowJS. To pitch shift, WebAssembly is used to run a C library that performs Fourier-based pitch shifting according to Stephan Bernsee's blog post from 1999. Additionally, the audio processing algorithms are run in the background on web workers to prevent the browser from becoming unresponsive.
 
 ## Development instructions
 
@@ -37,9 +39,3 @@ Deploy the app to GitHub Pages using `scripts/deploy.sh`
 * Web workers
 * React
 * Webpack
-
-## Resources
-
-* [CREPE: A Convolutional REpresentation for Pitch Estimation -- pre-trained model (ICASSP 2018)](https://github.com/marl/crepe)
-* [Pitch Shifting Using The Fourier Transform by Stephan Bernsee](http://blogs.zynaptiq.com/bernsee/pitch-shifting-using-the-ft/)
-* [Web Audio API docs](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API)
