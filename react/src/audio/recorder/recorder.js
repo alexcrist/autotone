@@ -1,14 +1,17 @@
 import { BufferNode } from './BufferNode.js';
 
+const DESIRED_SAMPLE_RATE = 48000;
+
 let audioContext;
 let microphone;
 let bufferNode;
 
 export const init = async () => {
-  audioContext = new AudioContext();
+  audioContext = new AudioContext({ sampleRate: DESIRED_SAMPLE_RATE });
   const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
   microphone = audioContext.createMediaStreamSource(stream);
   audioContext.suspend();
+  console.log('Recorder sample rate:', audioContext.sampleRate);
   return {
     sampleRate: audioContext.sampleRate,
   };
