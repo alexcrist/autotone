@@ -42,7 +42,7 @@ Deploy the app to GitHub Pages using `scripts/deploy.sh`
 * React
 * Webpack
 
-## Future work
+## 🔭 Future work
 
 * Make UI more responsive
   * Add graceful resizing for Chart component
