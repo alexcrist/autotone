@@ -8,6 +8,7 @@ export const Record = ({
   isReady,
   isRecording,
   isProcessing,
+  isMicAccessible,
   record,
   stopRecording,
 }) => {
@@ -15,7 +16,9 @@ export const Record = ({
   const isDisabled = !isReady || isProcessing;
 
   let text;
-  if (!isReady) {
+  if (!isMicAccessible) {
+    text = 'Microphone inaccessible.';
+  } else if (!isReady) {
     text = 'Loading CREPE model...';
   } else if (isProcessing) {
     text = 'Processing...';

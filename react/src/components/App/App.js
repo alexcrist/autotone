@@ -13,11 +13,15 @@ export const App = () => {
   const [isReady, setIsReady] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [isMicAccessible, setIsMicAccessible] = useState(true);
   const [originalAudio, setOriginalAudio] = useState(null);
   const [autotonedAudio, setAutotonedAudio] = useState(null);
 
   useEffect(() => {
-    autotoner.init().then(() => setIsReady(true));
+    autotoner
+      .init()
+      .then(() => setIsReady(true))
+      .catch(() => setIsMicAccessible(false));
   }, []);
 
   const record = () => {
@@ -66,6 +70,7 @@ export const App = () => {
           isReady={isReady}
           isRecording={isRecording}
           isProcessing={isProcessing}
+          isMicAccessible={isMicAccessible}
           record={record}
           stopRecording={stopRecording}
         />
