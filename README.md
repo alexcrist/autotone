@@ -45,7 +45,6 @@ Deploy the app to GitHub Pages using `scripts/deploy.sh`
 ## 🔭 Future work
 
 * Display a message if browser mic access is not granted
-* Display a warning if sample rate is not a multiple of 16000
 * Allow user to set pitch detection over-sampling factor
   * This will involve moving audio window/buffer building 
     logic out of BufferNode/Processor and into Autotoner
