@@ -7,7 +7,8 @@ export const Button = ({
   disabled,
   Icon,
   large,
-  small
+  small,
+  secondary,
 }) => {
   return (
     <div 
@@ -18,6 +19,7 @@ export const Button = ({
         (disabled && styles.disabled),
         (large && styles.large),
         (small && styles.small),
+        (secondary && styles.secondary),
       )
     }>
       <div className={styles.icon}>

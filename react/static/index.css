@@ -2,4 +2,5 @@
 
 * { 
   font-family: 'IBM Plex Mono', monospace;
+  box-sizing: border-box;
 }

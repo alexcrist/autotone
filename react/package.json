@@ -9,7 +9,8 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.7.1",
-    "tinygradient": "^1.1.5"
+    "tinygradient": "^1.1.5",
+    "wavefile-creator": "^1.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.12",

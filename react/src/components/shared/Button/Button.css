@@ -4,6 +4,12 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  border-radius: 50%;
+}
+
+.button.secondary {
+  background-color: transparent;
+  border: 2px solid darkslategray;
 }
 
 .button:hover {
@@ -19,16 +25,18 @@
 .large {
   height: 50px;
   width: 50px;
-  border-radius: 25px;
 }
 
 .small {
   height: 40px;
   width: 40px;
-  border-radius: 20px;
 }
 
 .icon {
   color: white;
   display: flex;
+}
+
+.secondary .icon {
+  color: darkslategray;
 }
