@@ -47,5 +47,8 @@ Deploy the app to GitHub Pages using `scripts/deploy.sh`
 * Allow user to set pitch detection over-sampling factor
   * This will involve moving audio window/buffer building 
     logic out of BufferNode/Processor and into Autotoner
+* Allow user to upload audio (instead of just microphone)
+  * Implement high quality audio resampler
+* Allow stereo (currently just mono)
 * Add more types of scales
 * Allow user to pitch correct according to a separate target audio or MIDI input
